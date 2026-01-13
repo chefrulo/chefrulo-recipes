@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_recipe_cost">
+        <t t-call="web.external_layout">
+            <t t-set="doc" t-value="doc_ids and doc_ids[0]"/>
+            <t t-set="records" t-value="docs"/>
+            <t t-foreach="records" t-as="o">
+                <t t-set="currency" t-value="o.company_id.currency_id"/>
+                <div class="page">
+                    <h2>
+                        <span>Recipe Cost Report</span>
+                    </h2>
+                    <p>
+                        <strong>Name:</strong>
+                        <span t-esc="o.name"/>
+                    </p>
+                    <p t-if="o.code">
+                        <strong>Code:</strong>
+                        <span t-esc="o.code"/>
+                    </p>
+                    <p>
+                        <strong>Category:</strong>
+                        <span t-esc="o.category_id.display_name if o.category_id else '-'"/>
+                    </p>
+                    <p>
+                        <strong>Portions:</strong>
+                        <span t-esc="o.portions"/>
+                    </p>
+
+                    <h3>Cost Summary</h3>
+                    <table class="table table-sm">
+                        <tbody>
+                            <tr>
+                                <th>Ingredients</th>
+                                <td class="text-end">
+                                    <span t-esc="formatLang(o.ingredient_cost, currency_obj=currency)"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Labor</th>
+                                <td class="text-end">
+                                    <span t-esc="formatLang(o.labor_cost, currency_obj=currency)"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Energy</th>
+                                <td class="text-end">
+                                    <span t-esc="formatLang(o.energy_cost, currency_obj=currency)"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Packaging</th>
+                                <td class="text-end">
+                                    <span t-esc="formatLang(o.packaging_cost, currency_obj=currency)"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Extra</th>
+                                <td class="text-end">
+                                    <span t-esc="formatLang(o.extra_cost, currency_obj=currency)"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Total (no labor)</th>
+                                <td class="text-end">
+                                    <span t-esc="formatLang(o.total_cost, currency_obj=currency)"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Portion (no labor)</th>
+                                <td class="text-end">
+                                    <span t-esc="formatLang(o.cost_per_portion_no_labor, currency_obj=currency)"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Grand Total</th>
+                                <td class="text-end">
+                                    <span t-esc="formatLang(o.grand_total, currency_obj=currency)"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Portion (with labor)</th>
+                                <td class="text-end">
+                                    <span t-esc="formatLang(o.cost_per_portion, currency_obj=currency)"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Ingredients</h3>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Ingredient</th>
+                                <th class="text-end">Qty</th>
+                                <th>UoM</th>
+                                <th class="text-end">Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="o.line_ids" t-as="line">
+                                <tr>
+                                    <td>
+                                        <span t-esc="line.ingredient_id.display_name or line.sub_recipe_id.display_name"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-esc="line.quantity"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line.uom_id.display_name"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-esc="formatLang(line.cost, currency_obj=currency)"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

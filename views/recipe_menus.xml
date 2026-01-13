@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem id="menu_recipe_root"
+              name="Recipes"
+              web_icon="chefrulo_recipe,static/description/icon.png"
+              sequence="50"/>
+
+    <!-- Recipes Submenu -->
+    <menuitem id="menu_recipe_recipes"
+              name="Recipes"
+              parent="menu_recipe_root"
+              sequence="10"/>
+
+    <menuitem id="menu_recipe_recipe_all"
+              name="All Recipes"
+              parent="menu_recipe_recipes"
+              action="action_recipe_recipe"
+              sequence="10"/>
+
+    <menuitem id="menu_recipe_category"
+              name="Recipe Categories"
+              parent="menu_recipe_recipes"
+              action="action_recipe_category"
+              sequence="20"/>
+
+    <!-- Ingredients Submenu -->
+    <menuitem id="menu_recipe_ingredients"
+              name="Ingredients"
+              parent="menu_recipe_root"
+              sequence="20"/>
+
+    <menuitem id="menu_recipe_ingredient_all"
+              name="All Ingredients"
+              parent="menu_recipe_ingredients"
+              action="action_recipe_ingredient"
+              sequence="10"/>
+
+    <menuitem id="menu_recipe_ingredient_category"
+              name="Ingredient Categories"
+              parent="menu_recipe_ingredients"
+              action="action_recipe_ingredient_category"
+              sequence="20"/>
+
+    <menuitem id="menu_recipe_ingredient_import"
+              name="Import Prices"
+              parent="menu_recipe_ingredients"
+              action="action_ingredient_import"
+              sequence="30"/>
+
+    <!-- Configuration -->
+    <menuitem id="menu_recipe_configuration"
+              name="Configuration"
+              parent="menu_recipe_root"
+              sequence="90"
+              groups="base.group_system"/>
+
+    <menuitem id="menu_recipe_settings"
+              name="Settings"
+              parent="menu_recipe_configuration"
+              action="base_setup.action_general_configuration"
+              sequence="10"
+              groups="base.group_system"/>
+</odoo>

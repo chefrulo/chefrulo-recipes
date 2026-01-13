@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Default Ingredient Categories -->
+        <record id="ingredient_category_vegetables" model="recipe.ingredient.category">
+            <field name="name">Vegetables</field>
+        </record>
+        <record id="ingredient_category_fruits" model="recipe.ingredient.category">
+            <field name="name">Fruits</field>
+        </record>
+        <record id="ingredient_category_dairy" model="recipe.ingredient.category">
+            <field name="name">Dairy</field>
+        </record>
+        <record id="ingredient_category_meat" model="recipe.ingredient.category">
+            <field name="name">Meat</field>
+        </record>
+        <record id="ingredient_category_seafood" model="recipe.ingredient.category">
+            <field name="name">Seafood</field>
+        </record>
+        <record id="ingredient_category_grains" model="recipe.ingredient.category">
+            <field name="name">Grains &amp; Pasta</field>
+        </record>
+        <record id="ingredient_category_spices" model="recipe.ingredient.category">
+            <field name="name">Spices &amp; Herbs</field>
+        </record>
+        <record id="ingredient_category_oils" model="recipe.ingredient.category">
+            <field name="name">Oils &amp; Fats</field>
+        </record>
+        <record id="ingredient_category_sauces" model="recipe.ingredient.category">
+            <field name="name">Sauces &amp; Condiments</field>
+        </record>
+        <record id="ingredient_category_other" model="recipe.ingredient.category">
+            <field name="name">Other</field>
+        </record>
+
+        <!-- Default Recipe Categories -->
+        <record id="recipe_category_appetizers" model="recipe.category">
+            <field name="name">Appetizers</field>
+        </record>
+        <record id="recipe_category_main" model="recipe.category">
+            <field name="name">Main Courses</field>
+        </record>
+        <record id="recipe_category_desserts" model="recipe.category">
+            <field name="name">Desserts</field>
+        </record>
+        <record id="recipe_category_beverages" model="recipe.category">
+            <field name="name">Beverages</field>
+        </record>
+        <record id="recipe_category_sauces" model="recipe.category">
+            <field name="name">Sauces &amp; Bases</field>
+        </record>
+        <record id="recipe_category_sides" model="recipe.category">
+            <field name="name">Side Dishes</field>
+        </record>
+    </data>
+</odoo>
