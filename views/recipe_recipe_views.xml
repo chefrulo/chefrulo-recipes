@@ -110,7 +110,7 @@
                             string="Print Cost Report" class="btn-secondary"/>
                     <button name="action_update_product_cost" type="object"
                             string="Update Product Cost" class="btn-secondary"
-                            attrs="{'readonly': ['|', ('product_id', '=', False), ('labor_hours', '=', 0)]}"/>
+                            modifiers="{'invisible': ['|', ('product_id', '=', False), ('labor_hours', '=', 0)]}"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
