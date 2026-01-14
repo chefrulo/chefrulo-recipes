@@ -1,121 +1,131 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <template id="report_recipe_cost">
-        <t t-call="web.external_layout">
-            <t t-set="doc" t-value="doc_ids and doc_ids[0]"/>
-            <t t-set="records" t-value="docs"/>
-            <t t-foreach="records" t-as="o">
-                <div class="page">
-                    <h2>
-                        <span>Recipe Cost Report</span>
-                    </h2>
-                    <p>
-                        <strong>Name:</strong>
-                        <span t-esc="o.name"/>
-                    </p>
-                    <p t-if="o.code">
-                        <strong>Code:</strong>
-                        <span t-esc="o.code"/>
-                    </p>
-                    <p>
-                        <strong>Category:</strong>
-                        <span t-esc="o.category_id.display_name if o.category_id else '-'"/>
-                    </p>
-                    <p>
-                        <strong>Portions:</strong>
-                        <span t-esc="o.portions"/>
-                    </p>
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>
+                            <span t-field="o.name"/>
+                        </h2>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <p t-if="o.code">
+                                    <strong>Code:</strong>
+                                    <span t-field="o.code"/>
+                                </p>
+                                <p>
+                                    <strong>Category:</strong>
+                                    <span t-if="o.category_id" t-field="o.category_id.name"/>
+                                    <span t-else="">-</span>
+                                </p>
+                                <p>
+                                    <strong>Portions:</strong>
+                                    <span t-field="o.portions"/>
+                                </p>
+                            </div>
+                        </div>
 
-                    <h3>Cost Summary</h3>
-                    <table class="table table-sm">
-                        <tbody>
-                            <tr>
-                                <th>Ingredients</th>
-                                <td class="text-end">
-                                    <span t-field="o.ingredient_cost"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Labor</th>
-                                <td class="text-end">
-                                    <span t-field="o.labor_cost"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Energy</th>
-                                <td class="text-end">
-                                    <span t-field="o.energy_cost"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Packaging</th>
-                                <td class="text-end">
-                                    <span t-field="o.packaging_cost"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Extra</th>
-                                <td class="text-end">
-                                    <span t-field="o.extra_cost"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Total (no labor)</th>
-                                <td class="text-end">
-                                    <span t-field="o.total_cost"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Portion (no labor)</th>
-                                <td class="text-end">
-                                    <span t-field="o.cost_per_portion_no_labor"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Grand Total</th>
-                                <td class="text-end">
-                                    <span t-field="o.grand_total"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Portion (with labor)</th>
-                                <td class="text-end">
-                                    <span t-field="o.cost_per_portion"/>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                        <h4>Ingredients</h4>
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr class="bg-light">
+                                    <th>Ingredient</th>
+                                    <th class="text-end">Qty</th>
+                                    <th>UoM</th>
+                                    <th class="text-end">Cost</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.line_ids" t-as="line">
+                                    <tr>
+                                        <td>
+                                            <span t-if="line.ingredient_id" t-field="line.ingredient_id.name"/>
+                                            <span t-if="line.sub_recipe_id">[Sub] <t t-esc="line.sub_recipe_id.name"/></span>
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-field="line.quantity"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.uom_id.name"/>
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-field="line.cost" t-options="{'widget': 'float', 'precision': 2}"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr class="bg-light">
+                                    <th colspan="3">Ingredient Cost</th>
+                                    <th class="text-end">
+                                        <span t-field="o.ingredient_cost" t-options="{'widget': 'float', 'precision': 2}"/>
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
 
-                    <h3>Ingredients</h3>
-                    <table class="table table-sm">
-                        <thead>
-                            <tr>
-                                <th>Ingredient</th>
-                                <th class="text-end">Qty</th>
-                                <th>UoM</th>
-                                <th class="text-end">Cost</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <t t-foreach="o.line_ids" t-as="line">
+                        <h4>Cost Summary</h4>
+                        <table class="table table-sm" style="width: 50%;">
+                            <tbody>
                                 <tr>
-                                    <td>
-                                        <span t-esc="line.ingredient_id.display_name or line.sub_recipe_id.display_name"/>
-                                    </td>
+                                    <td>Ingredients</td>
                                     <td class="text-end">
-                                        <span t-esc="line.quantity"/>
-                                    </td>
-                                    <td>
-                                        <span t-esc="line.uom_id.display_name"/>
-                                    </td>
-                                    <td class="text-end">
-                                        <span t-field="line.cost"/>
+                                        <span t-field="o.ingredient_cost" t-options="{'widget': 'float', 'precision': 2}"/>
                                     </td>
                                 </tr>
-                            </t>
-                        </tbody>
-                    </table>
-                </div>
+                                <tr>
+                                    <td>Energy</td>
+                                    <td class="text-end">
+                                        <span t-field="o.energy_cost" t-options="{'widget': 'float', 'precision': 2}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Packaging</td>
+                                    <td class="text-end">
+                                        <span t-field="o.packaging_cost" t-options="{'widget': 'float', 'precision': 2}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Extra</td>
+                                    <td class="text-end">
+                                        <span t-field="o.extra_cost" t-options="{'widget': 'float', 'precision': 2}"/>
+                                    </td>
+                                </tr>
+                                <tr class="border-top">
+                                    <th>Total (without Labor)</th>
+                                    <th class="text-end">
+                                        <span t-field="o.total_cost" t-options="{'widget': 'float', 'precision': 2}"/>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>Cost per Portion (no labor)</td>
+                                    <td class="text-end">
+                                        <span t-field="o.cost_per_portion_no_labor" t-options="{'widget': 'float', 'precision': 2}"/>
+                                    </td>
+                                </tr>
+                                <tr class="border-top">
+                                    <td>Labor (<t t-esc="o.labor_hours"/> hrs)</td>
+                                    <td class="text-end">
+                                        <span t-field="o.labor_cost" t-options="{'widget': 'float', 'precision': 2}"/>
+                                    </td>
+                                </tr>
+                                <tr class="border-top" style="font-size: 1.2em;">
+                                    <th>GRAND TOTAL</th>
+                                    <th class="text-end">
+                                        <span t-field="o.grand_total" t-options="{'widget': 'float', 'precision': 2}"/>
+                                    </th>
+                                </tr>
+                                <tr style="font-size: 1.2em; font-weight: bold;">
+                                    <th>Cost per Portion (with labor)</th>
+                                    <th class="text-end">
+                                        <span t-field="o.cost_per_portion" t-options="{'widget': 'float', 'precision': 2}"/>
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
             </t>
         </t>
     </template>
