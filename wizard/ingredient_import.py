@@ -85,11 +85,12 @@ class IngredientImport(models.TransientModel):
             return False
 
         partner = self.env["res.partner"].search(
-            [("name", "=ilike", supplier_name.strip())], limit=1
+            [("name", "=ilike", supplier_name.strip()), ("supplier_rank", ">", 0)], limit=1
         )
         if not partner:
             partner = self.env["res.partner"].create({
                 "name": supplier_name.strip(),
+                "supplier_rank": 1,
             })
         return partner
 

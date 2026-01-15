@@ -48,6 +48,7 @@ class RecipeIngredient(models.Model):
     supplier_id = fields.Many2one(
         "res.partner",
         string="Supplier",
+        domain="[('supplier_rank', '>', 0)]",
         help="Select a supplier from contacts",
     )
     active = fields.Boolean(string="Active", default=True)
