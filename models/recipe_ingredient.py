@@ -36,7 +36,12 @@ class RecipeIngredient(models.Model):
     _order = "name"
 
     name = fields.Char(string="Name", required=True)
-    code = fields.Char(string="Code", index=True)
+    code = fields.Char(
+        string="Code",
+        index=True,
+        default=lambda self: self.env["ir.sequence"].next_by_code("recipe.ingredient"),
+        copy=False,
+    )
     category_id = fields.Many2one(
         "recipe.ingredient.category", string="Category", index=True
     )
