@@ -32,7 +32,7 @@ class Recipe(models.Model):
     _order = "name"
 
     name = fields.Char(string="Name", required=True)
-    code = fields.Char(string="Code", index=True)
+    code = fields.Char(string="Code", index=True, copy=False)
     image = fields.Binary(string="Image", attachment=True)
     category_id = fields.Many2one("recipe.category", string="Category", index=True)
     product_id = fields.Many2one(
